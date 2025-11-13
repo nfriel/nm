@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CFLAGS='-Wall -Wextra -Werror -Wpedantic -fsanitize=address'
+CFLAGS='-std=c89 -Wall -Wextra -Werror -Wpedantic -fsanitize=address'
 CFILES='nm_test.c'
 LIBS='-lm'
 
