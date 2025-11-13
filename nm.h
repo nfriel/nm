@@ -14,9 +14,9 @@
 #ifndef NM_H_
 #define NM_H_
 
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #ifndef NM_VTYPE_DOUBLE
 #define NM_VTYPE float
@@ -48,7 +48,7 @@ typedef struct {
 
 typedef enum {
     NM_MATRIX_ZERO,
-    NM_MATRIX_INC_ONE,
+    NM_MATRIX_INC_ONE
 } NM_MATRIX_SET_TYPE;
 
 /* Vector operations */
@@ -85,48 +85,45 @@ NM_VTYPE nm_v2mag(NM_Vector2 a)
 
 NM_Vector2 nm_v2norm(NM_Vector2 a)
 {
+    NM_Vector2 v;
     NM_VTYPE mag = nm_v2mag(a);
-    NM_Vector2 v = {
-        a.x / mag,
-        a.y / mag,
-    };
+    v.x = a.x / mag;
+    v.y = a.y / mag;
     return v;
 }
 
 NM_Vector2 nm_v2scale(NM_Vector2 a, NM_VTYPE scale)
 {
-    NM_Vector2 v = {
-        a.x * scale,
-        a.y * scale,
-    };
+    NM_Vector2 v;
+    v.x = a.x * scale;
+    v.y = a.y * scale;
     return v;
 }
 
 NM_Vector2 nm_v2add(NM_Vector2 a, NM_Vector2 b)
 {
-    NM_Vector2 v = {
-        a.x + b.x,
-        a.y + b.y,
-    };
+    NM_Vector2 v;
+    v.x = a.x + b.x;
+    v.y = a.y + b.y;
     return v;
 }
 
 NM_Vector2 nm_v2sub(NM_Vector2 a, NM_Vector2 b)
 {
-    NM_Vector2 v = {
-        a.x - b.x,
-        a.y - b.y,
-    };
+    NM_Vector2 v;
+    v.x = a.x - b.x;
+    v.y = a.y - b.y;
     return v;
 }
 
 /* Matrix operations */
 void nm_mprint(NM_Matrix a, const char *name)
 {
+    int i, j;
     printf("NM_Matrix %ix%i %s:\n", a.rows, a.cols, name);
-    for (int i = 0; i < (int) a.rows; i++) {
+    for (i = 0; i < (int) a.rows; i++) {
         printf("| ");
-        for (int j = 0; j < (int) a.cols; j++) {
+        for (j = 0; j < (int) a.cols; j++) {
             printf("%06.2f ", NM_MATAT(a, i, j));
         }
         printf("|\n");
@@ -157,14 +154,15 @@ void nm_mset(NM_Matrix a, unsigned int row, unsigned int col, NM_VTYPE v)
 
 void nm_mset_default(NM_Matrix a, NM_MATRIX_SET_TYPE t)
 {
+    int i;
     switch (t) {
     case NM_MATRIX_INC_ONE:
-        for (int i = 0; i < (int) (a.cols * a.rows); i++) {
+        for (i = 0; i < (int) (a.cols * a.rows); i++) {
             a.data[i] = (NM_VTYPE) i;
         }
         break;
     case NM_MATRIX_ZERO:
-        for (int i = 0; i < (int) (a.cols * a.rows); i++) {
+        for (i = 0; i < (int) (a.cols * a.rows); i++) {
             a.data[i] = (NM_VTYPE) 0;
         }
         break;
@@ -175,7 +173,8 @@ void nm_mset_default(NM_Matrix a, NM_MATRIX_SET_TYPE t)
 
 void nm_mscale(NM_Matrix a, NM_Matrix b, NM_VTYPE scale)
 {
-    for (int i = 0; i < (int) (a.rows * a.cols); i++) {
+    int i;
+    for (i = 0; i < (int) (a.rows * a.cols); i++) {
         b.data[i] = a.data[i] * scale;
     }
 }
@@ -183,7 +182,8 @@ void nm_mscale(NM_Matrix a, NM_Matrix b, NM_VTYPE scale)
 void nm_mapply(NM_Matrix a, NM_Matrix b, NM_VTYPE (*func)(NM_VTYPE))
 {
     /* Apply func to each element of matrix a and store result in matrix b */
-    for (int i = 0; i < (int) (a.rows * a.cols); i++) {
+    int i;
+    for (i = 0; i < (int) (a.rows * a.cols); i++) {
         b.data[i] = func(a.data[i]);
     }
 }
